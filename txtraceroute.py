@@ -424,6 +424,10 @@ class TracerouteProtocol(object):
             ref = iphdr.disassemble(pkt[28:48])
             if ref.dst == self.target:
                 found = True
+        elif icmp.type == 8 and icmp.id == self.hops[-1].icmp.id:
+            # ICMP Echo Request
+            # We are pinging ourselves
+            found = True
 
         if ip.src == self.target:
             self.waiting = False
